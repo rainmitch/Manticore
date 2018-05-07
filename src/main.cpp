@@ -6,6 +6,8 @@
 
 #include <IR/IRToByteCode.h>
 
+#include <parser/parser.h>
+
 using namespace Manticore;
 
 void help ()
@@ -18,10 +20,12 @@ int main (int argc, char **args)
 	std::string test =
 		".specification = 0;";
 	
-	std::vector<IR> irCode = translateIRToByteCode (test);
+	Lexer l = Lexer ();
+	l.whitespace = {" ", "\t", "\n"};
+	l.feed ("int a = 5;");
 	
-	for (IR &ir : irCode)
+	for (int i = 0; i < l.size (); i++)
 	{
-		std::cout << ir << std::endl;
+		std::cout << l[i] << std::endl;
 	}
 }

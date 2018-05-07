@@ -19,13 +19,14 @@ file(GLOB SRC
 
 add_subdirectory (src/core)
 add_subdirectory (src/IR)
+add_subdirectory (src/parser)
 
 list(REMOVE_ITEM SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
 
 add_library (libmanticore SHARED ${SRC})
 add_executable (manticore ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
 
-target_link_libraries (libmanticore core IR)
+target_link_libraries (libmanticore parser core IR)
 target_link_libraries (manticore libmanticore)
 
 SET_TARGET_PROPERTIES (libmanticore PROPERTIES PREFIX "")
