@@ -84,6 +84,11 @@ namespace Manticore
 		return internalPointer >= tokens.size ();
 	}
 	
+	void Lexer::reset ()
+	{
+		internalPointer = 0;
+	}
+	
 	bool Lexer::empty ()
 	{
 		return tokens.empty ();

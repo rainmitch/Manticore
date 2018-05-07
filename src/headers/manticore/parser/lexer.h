@@ -32,6 +32,7 @@ namespace Manticore
 		Token peek ();
 		bool eos (); // end of stream
 		bool empty ();
+		void reset ();
 		void rewind (int steps);
 		void skip (int steps);
 		void stepBack ();

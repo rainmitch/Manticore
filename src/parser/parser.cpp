@@ -1,9 +1,13 @@
 
 #include <parser/parser.h>
 
+#include <parser/lexer.h>
+#include <parser/rule.h>
+#include <parser/ast.h>
+
 namespace Manticore
 {
-	void Parser::parse (std::string input)
+	AST Parser::parse (std::string input)
 	{
 		Lexer lex;
 		lex.whitespace = {" ", "\t", "\n"};
@@ -11,9 +15,11 @@ namespace Manticore
 		return parse (lex);
 	}
 	
-	void Parser::parse (Lexer lex)
+	AST Parser::parse (Lexer lex)
 	{
+		AST out = AST ("ROOT");
 		
+		return out;
 	}
 	
 	void Parser::add (std::string name, std::string rule)

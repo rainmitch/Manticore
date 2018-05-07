@@ -6,16 +6,18 @@
 #include <vector>
 #include <map>
 
-#include <parser/lexer.h>
-#include <parser/rule.h>
 
 namespace Manticore
 {
+	class Lexer;
+	class Rule;
+	class AST;
+	
 	class Parser
 	{
 	public:
-		virtual void parse (std::string input);
-		void parse (Lexer lex);
+		virtual AST parse (std::string input);
+		AST parse (Lexer lex);
 		void add (std::string name, std::string rule);
 		
 		std::vector<Rule> rules;

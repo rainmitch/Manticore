@@ -7,6 +7,9 @@
 #include <IR/IRToByteCode.h>
 
 #include <parser/parser.h>
+#include <parser/lexer.h>
+#include <parser/rule.h>
+#include <parser/ast.h>
 
 using namespace Manticore;
 
@@ -26,5 +29,9 @@ int main (int argc, char **args)
 	
 	Parser p;
 	
-	p.add ("test", "!('int' 'a') '=' '5' ';'");
+	p.add ("test", "'int' 'a' '=' '5' ';'");
+	
+	AST tree = p.parse (l);
+	
+	tree.print ();
 }
