@@ -24,8 +24,7 @@ int main (int argc, char **args)
 	l.whitespace = {" ", "\t", "\n"};
 	l.feed ("int a = 5;");
 	
-	for (int i = 0; i < l.size (); i++)
-	{
-		std::cout << l[i] << std::endl;
-	}
+	Parser p;
+	
+	p.add ("test", "!('int' 'a') '=' '5' ';'");
 }

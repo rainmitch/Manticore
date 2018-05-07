@@ -26,7 +26,7 @@ namespace Manticore
 
 	Lexer::Lexer ()
 	{
-		
+		internalPointer = 0;
 	}
 
 	Token &Lexer::operator[] (int place)
@@ -67,5 +67,40 @@ namespace Manticore
 				i++;
 			}
 		}
+	}
+	
+	Token Lexer::next ()
+	{
+		return tokens[internalPointer++];
+	}
+	
+	Token Lexer::peek ()
+	{
+		return tokens[internalPointer]; // return without increment, just sneak a peek
+	}
+	
+	bool Lexer::eos ()
+	{
+		return internalPointer >= tokens.size ();
+	}
+	
+	bool Lexer::empty ()
+	{
+		return tokens.empty ();
+	}
+	
+	void Lexer::rewind (int steps)
+	{
+		internalPointer -= steps;
+	}
+	
+	void Lexer::skip (int steps)
+	{
+		internalPointer += steps;
+	}
+	
+	void Lexer::stepBack ()
+	{
+		rewind (1);
 	}
 }
