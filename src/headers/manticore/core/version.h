@@ -1,0 +1,14 @@
+
+#ifndef MANTICORE_VERSION_H
+#define MANTICORE_VERSION_H
+
+#define STR_HELPER(x) #x
+#define STR(x) STR_HELPER(x)
+
+#define VERSION_MAJOR 0
+#define VERSION_MINOR 0
+#define VERSION_PATCH 1
+
+#define VERSION_STRING STR (VERSION_MAJOR) "." STR (VERSION_MINOR) "." STR (VERSION_PATCH)
+
+#endif
