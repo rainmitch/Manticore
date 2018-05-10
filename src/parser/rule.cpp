@@ -5,6 +5,21 @@
 
 namespace Manticore
 {
+	Rule::Rule ()
+	{
+		
+	}
+	
+	int Rule::size ()
+	{
+		return parts.size ();
+	}
+	
+	std::string &Rule::operator[] (int place)
+	{
+		return parts[place];
+	}
+	
 	std::vector<Rule> parseRule (std::string name, std::string rule)
 	{
 		std::vector<Rule> rules;
@@ -17,26 +32,26 @@ namespace Manticore
 		while (!l.eos ())
 		{
 			Token t = l.next ();
-			if (t == '\'' or t == '\"')
+			if (t == "\'" or t == "\"")
 			{
 				// this is a string of characters
 				std::string r;
 				while (!l.eos ()) // while not end-of-stream
 				{
 					Token t = l.next ();
-					if (t == '\'' or t == '\"')
+					if (t == "\'" or t == "\"")
 					{
 						break;
 					}
-					else if (t == '\\')
+					else if (t == "\\")
 					{
 						Token a = l.peek ();
-						if (a == '\'' or a == '\"')
+						if (a == "\'" or a == "\"")
 						{
-							r += a == '\'' ? '\'' : '\"';
+							r += a == "\'" ? '\'' : '\"';
 							l.skip (1);
 						}
-						else if (a == '\\')
+						else if (a == "\\")
 						{
 							r += "\\\\";
 							l.skip (1);
@@ -50,33 +65,33 @@ namespace Manticore
 				
 				currentRule.parts.push_back (r);
 			}
-			else if (t == '|') // the or statement
+			else if (t == "|") // the or statement
 			{
 				currentRule.name = name;
 				rules.push_back (currentRule);
 				currentRule = Rule ();
 			}
-			else if (t == '!') // token to denote what should be added to the AST
+			else if (t == "!") // token to denote what should be added to the AST
 			{
 				currentRule.parts.push_back ("!");
 			}
-			else if (t == '(') // this just functions as a grouping mechanism
+			else if (t == "(") // this just functions as a grouping mechanism
 			{
 				currentRule.parts.push_back ("(");
 			}
-			else if (t == ')') // this just functions as a grouping mechanism
+			else if (t == ")") // this just functions as a grouping mechanism
 			{
 				currentRule.parts.push_back (")");
 			}
-			else if (t == '{') // this just functions as a maybe-this-appears mechanism
+			else if (t == "{") // this just functions as a maybe-this-appears mechanism
 			{
 				currentRule.parts.push_back ("(");
 			}
-			else if (t == '}') // this just functions as a maybe-this-appears mechanism
+			else if (t == "}") // this just functions as a maybe-this-appears mechanism
 			{
 				currentRule.parts.push_back ("}");
 			}
-			else if (t == '*') // this just functions as a this token may repeat as many times as it appears mechanism
+			else if (t == "*") // this just functions as a this token may repeat as many times as it appears mechanism
 			{
 				currentRule.parts.push_back ("*");
 			}
@@ -95,10 +110,4 @@ namespace Manticore
 		
 		return rules;
 	}
-	
-	Rule::Rule ()
-	{
-		
-	}
-
 }

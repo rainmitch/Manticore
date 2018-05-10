@@ -12,6 +12,8 @@ namespace Manticore
 	public:
 		Rule ();
 		
+		int size ();
+		std::string &operator[] (int place);
 		
 		std::string name;
 		std::vector<std::string> parts;

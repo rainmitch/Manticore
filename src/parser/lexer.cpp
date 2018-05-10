@@ -10,14 +10,22 @@ bool contains (std::vector<std::string> values, char c)
 	return false;
 }
 
+bool isWord (char c)
+{
+	return  (c >= 'a' and c <= 'z') or
+			(c >= 'A' and c <= 'Z') or
+			(c >= '_') or
+			(c >= '0' and c <= '9');
+}
+
 namespace Manticore
 {
-	Token::Token () : Token (0x00, 0x00, 0x00)
+	Token::Token () : Token ("", 0x00, 0x00)
 	{
 		
 	}
 
-	Token::Token (char token, uint32_t line, uint32_t col)
+	Token::Token (std::string token, uint32_t line, uint32_t col)
 	{
 		this->token = token;
 		this->line = line;
@@ -34,7 +42,7 @@ namespace Manticore
 		return tokens[place];
 	}
 
-	int Lexer::size ()
+	uint32_t Lexer::size ()
 	{
 		return tokens.size ();
 	}
@@ -47,26 +55,52 @@ namespace Manticore
 		unsigned int i = 0;
 		while (i < data.size ())
 		{
-			if (contains (whitespace, data[i]))
+			if (isWord (data[i]))
 			{
-				if (std::string (1, data[i]) == newline)
+				std::string tmp;
+				
+				while (i < data.size ())
+				{
+					if (!isWord (data[i]))
+					{
+						break;
+					}
+					else
+					{
+						tmp += data[i];
+						col++;
+						i++;
+					}
+				}
+				
+				tokens.push_back ({tmp, line, col-1});
+			}
+			else if (contains (whitespace, data[i]))
+			{
+				if (std::string (newline.size (), data[i]) == newline)
 				{
 					line++;
 					col = 0;
+					i += newline.size ();
 				}
 				else
 				{
 					col++;
+					i++;
 				}
-				i++;
 			}
 			else
 			{
-				tokens.push_back ({data[i], line, col});
+				tokens.push_back ({std::string (1, data[i]), line, col});
 				col++;
 				i++;
 			}
 		}
+	}
+	
+	void Lexer::push (Token t)
+	{
+		tokens.push_back (t);
 	}
 	
 	Token Lexer::next ()

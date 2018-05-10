@@ -21,6 +21,7 @@ namespace Manticore
 		void add (std::string name, std::string rule);
 		
 		std::vector<Rule> rules;
+		std::string rootRule;
 	};
 }
 

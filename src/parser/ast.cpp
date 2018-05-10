@@ -24,7 +24,7 @@ namespace Manticore
 	
 	void AST::add (Token t)
 	{
-		children.push_back (AST (std::string (1, t.token), t.line, t.col));
+		children.push_back (AST (t.token, t.line, t.col));
 	}
 	
 	int AST::size ()
