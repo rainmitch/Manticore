@@ -35,7 +35,7 @@ int main (int argc, char **args)
 	Parser p;
 	
 	p.add ("test",  "'int' 'a' '=' '5' ';'");
-	p.add ("test2", "'int' 'a'");
+	//p.add ("test2", "'int' 'a'");
 	
 	p.rootRule = "test";
 	

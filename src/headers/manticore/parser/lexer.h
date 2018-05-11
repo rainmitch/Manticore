@@ -29,6 +29,7 @@ namespace Manticore
 		void feed (std::string data);
 		
 		void push (Token t);
+		Lexer slice (int start, int length);
 		
 		Token next ();
 		Token peek ();

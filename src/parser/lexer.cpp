@@ -103,6 +103,17 @@ namespace Manticore
 		tokens.push_back (t);
 	}
 	
+	Lexer Lexer::slice (int start, int length)
+	{
+		Lexer lex;
+		for (int i = start; i < start + length; i++)
+		{
+			lex.push (tokens[i]);
+		}
+		
+		return lex;
+	}
+	
 	Token Lexer::next ()
 	{
 		return tokens[internalPointer++];

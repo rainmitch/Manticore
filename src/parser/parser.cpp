@@ -41,7 +41,16 @@ namespace Manticore
 			}
 		}
 		
-		
+		for (int sliceLength = 1; sliceLength < n+1; sliceLength++)
+		{
+			std::cout << "length of slice: " << sliceLength << ":" << std::endl;
+			for (int posOfSlice = 0; posOfSlice < n-sliceLength+1; posOfSlice++)
+			{
+				std::cout << "   pos: " << posOfSlice << std::endl;
+				Lexer tokens = lex.slice (posOfSlice, sliceLength);
+				
+			}
+		}
 		
 		for (int i = 0; i < n; i++)
 		{
