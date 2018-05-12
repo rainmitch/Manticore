@@ -106,7 +106,7 @@ namespace Manticore
 			}
 			else if (t == "{") // this just functions as a maybe-this-appears mechanism
 			{
-				currentRule.parts.push_back ("(");
+				currentRule.parts.push_back ("{");
 			}
 			else if (t == "}") // this just functions as a maybe-this-appears mechanism
 			{

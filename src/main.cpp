@@ -29,7 +29,7 @@ int main (int argc, char **args)
 	
 	Parser p;
 	
-	p.add ("test",  "!(<word> <word>) '=' !'5' ';'");
+	p.add ("test",  "!(<word> <word>) ('=') !'5' ';'");
 	
 	p.rootRule = "test";
 	

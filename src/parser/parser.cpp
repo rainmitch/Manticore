@@ -40,12 +40,19 @@ namespace Manticore
 			bool pushFlag = false;
 			bool pushFlagGlobal = false;
 			bool pushedStack = false;
+			bool maybeFlag = false;
+			bool repeat = false;
+			int repeatPos = 0;
 			
 			AST tree = AST ("<" + rules[r].name + ">");
 			
 			for (int rp = 0; rp < rules[r].size (); rp++)
 			{
 				rulePos = rp;
+				//std::cout << "Current Parsing Token: \'" << rules[r][rp] << "\'" << std::endl;
+				//std::cout << "current Lexer Token: " << tokens[pos] << std::endl;
+				//std::cout << std::endl;
+				
 				if (rules[r][rp][0] == '\'')
 				{
 					if (strip (rules[r][rp]) == tokens[pos])
@@ -55,13 +62,16 @@ namespace Manticore
 							tree.add (tokens[pos]);
 							pushFlag = false;
 						}
-						
 						pos++;
 					}
 					else
 					{
-						pass = false;
-						break;
+						pushedStack = false;
+						if (!maybeFlag and !repeat)
+						{
+							pass = false;
+							break;
+						}
 					}
 				}
 				else if (rules[r][rp][0] == '<')
@@ -80,8 +90,12 @@ namespace Manticore
 						}
 						else
 						{
-							pass = false;
-							break;
+							pushedStack = false;
+							if (!maybeFlag and !repeat)
+							{
+								pass = false;
+								break;
+							}
 						}
 					}
 					else
@@ -93,19 +107,24 @@ namespace Manticore
 						AST t = parseFunction (tokens, rs, h);
 						if (t.value == "ROOT" and t.size () != 0)
 						{
-							pos = h.pos; // update cursor pos
 							if (pushFlag or pushFlagGlobal)
 							{
 								for (AST &child : t.children)
 									tree.add (child);
 								pushFlag = false;
 							}
+							pos = h.pos; // update cursor pos
 						}
 						else
 						{
 							std::cout << "Branch failed" << std::endl;
-							pass = false;
-							break;
+							
+							pushedStack = false;
+							if (!maybeFlag and !repeat)
+							{
+								pass = false;
+								break;
+							}
 						}
 					}
 				}
@@ -113,7 +132,7 @@ namespace Manticore
 				{
 					pushFlag = true;
 					if (rp+1 < rules[r].size ())
-						if (rules[r][rp+1] == "(")
+						if (rules[r][rp+1] == "(" or rules[r][rp+1] == "{" or rules[r][rp+1] == "*")
 							pushFlagGlobal = true;
 				}
 				else if (rules[r][rp] == "(")
@@ -122,9 +141,52 @@ namespace Manticore
 				}
 				else if (rules[r][rp] == ")")
 				{
+					if (repeat)
+					{
+						if (pushedStack)
+						{
+							rp = repeatPos;
+							continue;
+						}
+						else
+						{
+							repeat = false;
+						}
+					}
+					
 					pushedStack = false;
 					pushFlag = false;
 					pushFlagGlobal = false;
+				}
+				else if (rules[r][rp] == "{")
+				{
+					pushedStack = true;
+					maybeFlag = true;
+				}
+				else if (rules[r][rp] == "}")
+				{
+					if (repeat)
+					{
+						if (pushedStack)
+						{
+							rp = repeatPos;
+							continue;
+						}
+						else
+						{
+							repeat = false;
+						}
+					}
+					pushedStack = false;
+					pushFlag = false;
+					pushFlagGlobal = false;
+					maybeFlag = false;
+					
+				}
+				else if (rules[r][rp] == "*")
+				{
+					repeat = true;
+					repeatPos = rp;
 				}
 			}
 			
