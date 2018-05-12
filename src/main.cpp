@@ -25,17 +25,11 @@ int main (int argc, char **args)
 	
 	Lexer l = Lexer ();
 	l.whitespace = {" ", "\t", "\n"};
-	l.feed ("int a = 5;");
-	
-	for (unsigned int i = 0; i < l.size (); i++)
-	{
-		std::cout << l[i] << std::endl;
-	}
+	l.feed ("void a = 5;");
 	
 	Parser p;
 	
-	p.add ("test",  "'int' 'a' '=' '5' ';'");
-	//p.add ("test2", "'int' 'a'");
+	p.add ("test",  "!(<word> <word>) '=' !'5' ';'");
 	
 	p.rootRule = "test";
 	

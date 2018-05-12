@@ -153,4 +153,12 @@ namespace Manticore
 	{
 		rewind (1);
 	}
+	
+	void Lexer::print ()
+	{
+		for (Token &t : tokens)
+		{
+			std::cout << t << std::endl;
+		}
+	}
 }

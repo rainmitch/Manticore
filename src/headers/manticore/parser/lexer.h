@@ -5,6 +5,8 @@
 #include <iostream>
 #include <vector>
 
+bool isWord (char c);
+
 namespace Manticore
 {
 	
@@ -40,6 +42,7 @@ namespace Manticore
 		void skip (int steps);
 		void stepBack ();
 		
+		void print ();
 		
 		std::vector<Token> tokens;
 		

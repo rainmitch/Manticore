@@ -35,12 +35,13 @@ namespace Manticore
 			if (t == "\'" or t == "\"")
 			{
 				// this is a string of characters
-				std::string r;
+				std::string r = "\'";
 				while (!l.eos ()) // while not end-of-stream
 				{
 					Token t = l.next ();
 					if (t == "\'" or t == "\"")
 					{
+						r += '\'';
 						break;
 					}
 					else if (t == "\\")
@@ -56,6 +57,26 @@ namespace Manticore
 							r += "\\\\";
 							l.skip (1);
 						}
+					}
+					else
+					{
+						r += t.token;
+					}
+				}
+				
+				currentRule.parts.push_back (r);
+			}
+			else if (t == "<")
+			{
+				// this is a string of characters
+				std::string r = "<";
+				while (!l.eos ()) // while not end-of-stream
+				{
+					Token t = l.next ();
+					if (t == ">")
+					{
+						r += '>';
+						break;
 					}
 					else
 					{

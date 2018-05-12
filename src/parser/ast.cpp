@@ -48,6 +48,9 @@ namespace Manticore
 			std::cout << ":";
 		std::cout << std::endl;
 		
-		
+		for (AST &child : children)
+		{
+			child.print (depth + 1);
+		}
 	}
 }
